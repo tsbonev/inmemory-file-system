@@ -19,7 +19,7 @@ public class InMemoryFileSystem implements FileSystem {
     @Override
     public File createFile(Directory directory, String fileName, String content) {
         if(directory == null) throw new InvalidPathException();
-        if(fileName == null || fileName.isBlank()) throw new InvalidNameException();
+        if(fileName == null || fileName.isBlank() || fileName.contains("/")) throw new InvalidNameException();
 
         if(directory.getChildren().stream().anyMatch(it -> it.getName().equals(fileName) && it instanceof File)) {
             throw new FileAlreadyExistsException();
@@ -37,7 +37,7 @@ public class InMemoryFileSystem implements FileSystem {
     public Directory createDirectory(Directory parent, String directoryName) {
         if(parent == null) throw new InvalidPathException();
 
-        if(directoryName == null || directoryName.isBlank()) throw new InvalidNameException();
+        if(directoryName == null || directoryName.isBlank() || directoryName.contains("/")) throw new InvalidNameException();
 
         if(parent.getChildren().stream().anyMatch(it -> it.getName().equals(directoryName) && it instanceof Directory)) {
             throw new DirectoryAlreadyExistsException();

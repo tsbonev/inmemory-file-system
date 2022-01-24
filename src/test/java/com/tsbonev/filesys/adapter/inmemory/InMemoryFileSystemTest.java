@@ -80,6 +80,15 @@ public class InMemoryFileSystemTest {
     }
 
     @Test
+    public void createFile_nameWithSlash() {
+        Directory home = fileSystem.createDirectory("home");
+        try {
+            fileSystem.createFile(home, "name/home", "::content::");
+            fail();
+        } catch (InvalidNameException ex) {}
+    }
+
+    @Test
     public void createFile_nullName() {
         Directory home = fileSystem.createDirectory("home");
         try {
@@ -129,6 +138,14 @@ public class InMemoryFileSystemTest {
     public void createDirectory_emptyName() {
         try {
             fileSystem.createDirectory("");
+            fail();
+        } catch (InvalidNameException ex) {}
+    }
+
+    @Test
+    public void createDirectory_nameWithSlash() {
+        try {
+            fileSystem.createDirectory("dir/name");
             fail();
         } catch (InvalidNameException ex) {}
     }
